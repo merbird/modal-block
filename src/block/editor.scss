@@ -1,0 +1,131 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+
+$form-bg-color: #f3f3f3;
+$border-color: #dadada;
+$tab-menu-color: #F8F8F8;
+$tab-panel-color: white;
+$field-indent: 0.25rem;
+
+.bod-form  {
+  color: $black;
+  margin: 0 auto;
+  max-width: 740px;
+  padding: 0;
+
+  .bod-form-row {
+	width: 100%;
+	box-sizing: border-box;
+
+	.bod-col-sm-6 {
+		padding: 0 15px 15px;
+		width: 50%;
+		float: left;
+	}
+
+  }
+
+  .bod-form-row:after {
+	  content: "";
+	  display:table;
+	  clear: both;
+  }
+  
+  .my-tab-panel {
+	  border: 1px solid $border-color;
+	  padding: 0;
+	  
+	  .components-tab-panel__tabs {
+		  background-color: $tab-menu-color;
+		  border: 1px solid $border-color;
+		  
+		  button {
+			  background-color: #F5F5F5;
+			  border: none;
+			  font-weight: bold;
+			  padding: 0.5rem 0.75rem;
+		  }
+		  
+		  button:hover {
+			  background-color: white;
+			  border: none;
+		  }
+		  
+		  .active-tab, button:hover.active-tab  {
+			  border-bottom: 3px solid #06F;
+		  }
+	  }
+	  
+	  .components-tab-panel__tab-content {
+		  	  padding: 0 0.5rem;
+			  background-color: $tab-panel-color;
+	  }
+  }
+  
+  label {
+	  font-weight:bold;
+	  margin: 0.5rem 0 0.25rem;
+  }
+  
+  .editor-plain-text {
+	  border: 1px solid $border-color;
+	  padding: 0 $field-indent;
+  }
+  
+  .bod-form-innerblock {
+	  background-color: #DFDFBF;
+	  border: 1px solid $border-color;
+	  padding: 0 $field-indent;
+  }
+
+  .bod-trigger-image-container {
+	  position: relative;
+	  width: 150px;
+	  height: 150px;
+	  background-color: rgba(0,0,0,0.1);
+	  border: solid 2px $border-color;
+	  display: block;
+
+	&:hover {
+		border: solid 4px $border-color;
+
+		img {
+			opacity: 0.3;
+		}
+	}
+
+	&:after{
+		content: "+";
+		font-weight: bold;
+		font-size: 2rem;
+		position: absolute;
+		top:50%;
+		left:50%;
+		transform:translate(-50%,-50%);
+	}
+	  
+	img {
+		min-width: 100%;
+		min-height: 100%;
+		width: auto;
+		height: auto;
+		object-fit: cover;
+	}
+  }
+
+  .hide {
+	display: none;
+  }
+
+}
+
+@media (max-width: 400px) {
+	.bod-col-sm-6 {
+	  width: 100%;
+	  float:none;
+	}
+}

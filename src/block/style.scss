@@ -1,0 +1,123 @@
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+
+
+.wp-block-bod-block-modal {
+  
+  &.align-center {
+    text-align: center;
+  }
+
+  &.align-left {
+    text-align: left;
+  }
+
+  &.align-right {
+    text-align: right;
+  }
+
+  .bod-btn {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 1.5;
+    padding: 8px 20px;
+    margin: 4px 0;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor:pointer;
+  }
+
+}
+
+// bevause we move the overlay and wrap to the document body then 
+// we need to setup styles outside of the wp-block container
+
+.bod-block-popup-overlay,
+.bod-block-popup-wrap {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.bod-block-popup-overlay {
+  z-index: 10001;
+  height: 100%;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+  opacity: 0;
+  
+  &.active {
+    opacity: 1;
+  }
+}
+
+.bod-block-popup-wrap {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10002;
+  
+  &.active {
+    .bod-block-popup-closer {
+      opacity: 1;
+    }
+    opacity: 1;
+  }
+
+  &.size-s {
+    width: 400px;
+  }
+
+  &.size-m {
+    width: 600px;
+  }
+
+  &.size-l {
+    width: 800px;
+  }
+  
+  &.size-xl {
+    width: 1000px;
+  }
+
+  &.size-f {
+    width: 100%;
+  }
+
+  .bod-modal-title h2 {
+    margin: 0; // reset margin on title h2 tag
+  }
+
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+
+  .bod-block-popup-closer {
+    
+    &:before {
+      content: '\00D7';
+      font-size: 30px;  
+    }
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    text-align: center;
+    font-weight: normal;
+    line-height: 30px;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    color: black;
+    -webkit-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+    opacity: 0;
+    background-color: rgba($color: #ffff, $alpha: 0.2)
+  }
+
+}
