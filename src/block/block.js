@@ -44,8 +44,8 @@ const bodFormatStyles = (styles) => {
 					styleValues.forEach(function(styleValue) {
 
 						// we have only have max of 4 values for padding 1 for everything else
-						if ((style === 'padding' && valueCount < 4) ||
-							( style !== 'padding' && valueCount < 1 )) { 
+						if (((style === 'padding' || style === 'borderRadius') && valueCount < 4) ||
+							( style !== 'padding' && style !== 'borderRadius' && valueCount < 1 )) { 
 							if (styleValue.includes('%')) {
 								formatStyleValue += parseInt(styleValue) + '% ';
 							} else if (styleValue.includes('rem')) {
@@ -102,12 +102,13 @@ const bodFormatStyles = (styles) => {
  */
 registerBlockType( 'bod/block-modal', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-	title: __( 'bod-block - modal', 'bod-modal' ), // Block title.
+	title: __( 'Modal Block', 'bod-modal' ), // Block title.
 	icon: 'format-gallery', // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
 	category: 'widgets', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
 	keywords: [
-		__( 'bod-block — modal' ),
-		__( 'Modal Popup' )
+		__( 'modal' , 'bod-modal' ),
+		__( 'popup' , 'bod-modal' ),
+		__( 'window' , 'bod-modal' )
 	],
 
 	attributes: {
@@ -327,8 +328,8 @@ registerBlockType( 'bod/block-modal', {
 				);
 			} else {
 				let classStyles = bodFormatStyles ({'backgroundColor': attributes.btnBackgdColor, 'color' : attributes.btnColor});
-				console.log('in trigger returned class styles are :');
-				console.log(classStyles);
+				//console.log('in trigger returned class styles are :');
+				//console.log(classStyles);
 				return (
 					<span style={classStyles} className="bod-block-popup-trigger type_btn bod-btn">
 						{attributes.btnLabel}
@@ -437,7 +438,7 @@ registerBlockType( 'bod/block-modal', {
 
 							</div> {/* end button wrapper */}
 						
-							
+
 							<div className={hideFields('image' , 'showOn')}>
 
 								{/* Trigger Image */}
@@ -552,7 +553,6 @@ registerBlockType( 'bod/block-modal', {
 							initialOpen={false}
 							className="bod-form"
 						>
-
 									{/*******************/}
 									{/*     Style Tab   */}
 									{/*******************/}
@@ -609,7 +609,7 @@ registerBlockType( 'bod/block-modal', {
 								{ label: __('Small 400px','bod-modal'), value: 'size-s' },
 								{ label: __('Medium 600px','bod-modal'), value: 'size-m' },
 								{ label: __('Large 800px','bod-modal'), value: 'size-l' },
-								{ label: __('Large 1000px','bod-modal'), value: 'size-xl' },
+								{ label: __('XL 1000px','bod-modal'), value: 'size-xl' },
 								{ label: __('Fullscreen','bod-modal'), value: 'size-f' },
 							]}
 							onChange={ content => setAttributes({ modalSize: content }) }
@@ -716,16 +716,19 @@ registerBlockType( 'bod/block-modal', {
 				{/* Modal Overlay */}
 				<div style={bodFormatStyles ({'backgroundColor': attributes.overlayBackgdColor})} className="bod-block-popup-overlay"></div>
 			
-				{/* Modal Content */}
-				<div  role="dialog" aria-modal="false" aria-labelledby="" aria-describedby=""  style={bodFormatStyles ({'backgroundColor': attributes.modalBackgdColor, 'borderRadius': attributes.modalRadius})} className={"bod-block-popup-wrap " + attributes.modalSize}>
-					<div id="" style={bodFormatStyles ({'backgroundColor': attributes.titleBackgdColor, 'padding': attributes.titlePadding}) } className = "bod-modal-title">
-						<h2 style={bodFormatStyles ({'color': attributes.titleColor, 'fontSize': attributes.titleSize})}>{attributes.title}</h2>
-					</div> {/* end title */}
-					<div id=""  style={bodFormatStyles ({'padding': attributes.modalPadding})} className="bod-modal-content">
-						{<InnerBlocks.Content/>}
-					</div> {/* end content */}
+				<div role="dialog" aria-modal="false" aria-labelledby="" aria-describedby="" className={"bod-block-popup-wrap"}>
+					{/* Modal Content */}
+					<div style={bodFormatStyles ({'backgroundColor': attributes.modalBackgdColor, 'borderRadius': attributes.modalRadius})} className={"bod-block-popup " + attributes.modalSize}>
+						<div id="" style={bodFormatStyles ({'backgroundColor': attributes.titleBackgdColor, 'padding': attributes.titlePadding}) } className = "bod-modal-title">
+							<h2 style={bodFormatStyles ({'color': attributes.titleColor, 'fontSize': attributes.titleSize})}>{attributes.title}</h2>
+						</div> {/* end title */}
+						<div id=""  style={bodFormatStyles ({'padding': attributes.modalPadding})} className="bod-modal-content">
+							{<InnerBlocks.Content/>}
+						</div> {/* end content */}
+						
+					</div> {/* end modal content */}
 					<div className="bod-block-popup-closer"></div>
-				</div> {/* end modal content */}
+				</div>
 
 			</div>
 		);

@@ -1,7 +1,8 @@
 <?php
 /**
  * Plugin Name: Modal Guten Block
- * Description: bod-block-modal — is a Gutenberg modal / popup plugin
+ * Plugin URI: https://github.com/merbird/modal-guten-block
+ * Description: This is a Gutenberg modal / popup plugin
  * Author: Mark Bird
  * Version: 1.0.0
  * License: GPL2+
