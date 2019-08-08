@@ -1,9 +1,9 @@
 === Modal Guten Block ===
 
-Contributors: Mark Bird
+Contributors: merbmerb
 Plugin Name: Modal Guten Block
 Plugin URI: https://github.com/merbird/modal-guten-block
-Tags: gutenberg, modal, popup
+Tags: gutenberg, modal, popup, window
 Author: Mark Bird
 Donate link: https://paypal.me/SupportBodDev
 Requires at least: 5.0
@@ -21,6 +21,8 @@ This project provides a modal / popup block for the  WordPress Gutenberg editor.
 
 - Multiple methods for triggering modal including button, text link, image link, external class, and page load.
 - User definable modal content using Gutenberg blocks, for example, image, paragraph etc. 
+- Support for multiple modal window sizes.
+- Lots of customizable options including Trigger Button Label, Button Color, Trigger Text, Trigger Text Size, Trigger Image, Trigger Class, Modal Delay, Trigger Element Alignment, Overlay Background Color, Title Text Size, Title Font Color, Title Background Color, Title Padding, Border Radius.
 - Supports multiple modals on the same page.
 - Uses create-guton-block for easy config.
 
@@ -32,13 +34,14 @@ From your WordPress dashboard
 2. **Search** for "Modal Guten Block"
 3. **Install** the "Modal Guten Block" plugin
 4. **Activate** "Modal Guten Block" from your Plugins page
-5. **Insert Block** on your Gutenberg Editor and select "Modal Block"
+5. **Insert Block** on your Gutenberg Editor and select "Modal Block" which is located in Widgets.
 
 == Frequently Asked Questions ==
 
 == Screenshots ==
 
-model-guten-block/assets/screenshot-1.jpg
+1. Sample modal window.
+2. Modal Guten Block in editor. 
 
 == Changelog ==
 
