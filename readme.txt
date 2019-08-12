@@ -45,7 +45,7 @@ From your WordPress dashboard
 
 == Changelog ==
 
-= 1.0.0 (6/20/2019) =
+= 1.0.0 (8/12/2019) =
 * First release
 
 == Donations ==
