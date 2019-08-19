@@ -1,8 +1,8 @@
 === Modal Guten Block ===
 
 Contributors: merbmerb
-Plugin Name: Modal Guten Block
-Plugin URI: https://github.com/merbird/modal-guten-block
+Plugin Name: Modal Block
+Plugin URI: https://github.com/merbird/modal-block
 Tags: gutenberg, modal, popup, window
 Author: Mark Bird
 Donate link: https://paypal.me/SupportBodDev
@@ -31,9 +31,9 @@ This project provides a modal / popup block for the  WordPress Gutenberg editor.
 From your WordPress dashboard
 
 1. **Visit** Plugins > Add New
-2. **Search** for "Modal Guten Block"
-3. **Install** the "Modal Guten Block" plugin
-4. **Activate** "Modal Guten Block" from your Plugins page
+2. **Search** for "Modal Block"
+3. **Install** the "Modal Block" plugin
+4. **Activate** "Modal Block" from your Plugins page
 5. **Insert Block** on your Gutenberg Editor and select "Modal Block" which is located in Widgets.
 
 == Frequently Asked Questions ==
@@ -45,7 +45,7 @@ From your WordPress dashboard
 
 == Changelog ==
 
-= 1.0.0 (8/12/2019) =
+= 1.0.0 (8/19/2019) =
 * First release
 
 == Donations ==

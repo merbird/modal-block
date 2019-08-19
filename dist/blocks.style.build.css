@@ -9,16 +9,16 @@
  *
  * CSS for both Frontend+Backend.
  */
-.wp-block-bod-block-modal.align-center {
+.wp-block-bod-modal-block.align-center {
   text-align: center; }
 
-.wp-block-bod-block-modal.align-left {
+.wp-block-bod-modal-block.align-left {
   text-align: left; }
 
-.wp-block-bod-block-modal.align-right {
+.wp-block-bod-modal-block.align-right {
   text-align: right; }
 
-.wp-block-bod-block-modal .bod-btn {
+.wp-block-bod-modal-block .bod-btn {
   display: inline-block;
   vertical-align: top;
   line-height: 1.5;

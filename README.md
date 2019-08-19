@@ -94,7 +94,7 @@ Node.js
 ## Setup
 
 ```
-cd /wp-content/plugins/bod-block-modal/
+cd /wp-content/plugins/modal-block/
 npm install
 ```
 To start developing

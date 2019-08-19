@@ -1,8 +1,7 @@
 /**
- * BLOCK: bod-block
+ * BLOCK: Modal Block
  *
- * Registering a basic block with Gutenberg.
- * Simple block, renders and saves the same content without any interactivity.
+ * Allows modal / popup block for use in the Gutenberg editor. 
  */
 
 //  Import CSS.
@@ -11,9 +10,8 @@ import './editor.scss';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { InspectorControls, MediaUpload, PlainText, InnerBlocks, ColorPalette } = wp.editor;
-const { CheckboxControl, TabPanel, SelectControl, ColorPicker, PanelBody} = wp.components;
-const { withState } = wp.compose;
+const { InspectorControls, MediaUpload, PlainText, InnerBlocks } = wp.editor;
+const { CheckboxControl, SelectControl, ColorPicker, PanelBody} = wp.components;
 
 // takes the style type attributes entered in the backend form and converts them to inline styles
 // styles - object
@@ -88,7 +86,7 @@ const bodFormatStyles = (styles) => {
 }
 
 /**
- * Register: aa Gutenberg Block.
+ * Register: Gutenberg Block.
  *
  * Registers a new block provided a unique name and an object defining its
  * behavior. Once registered, the block is made editor as an option to any
@@ -100,7 +98,7 @@ const bodFormatStyles = (styles) => {
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'bod/block-modal', {
+registerBlockType( 'bod/modal-block', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 	title: __( 'Modal Block', 'bod-modal' ), // Block title.
 	icon: 'format-gallery', // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.

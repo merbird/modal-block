@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Modal Guten Block
- * Plugin URI: https://github.com/merbird/modal-guten-block
- * Description: This is a Gutenberg modal / popup plugin
+ * Plugin Name: Modal Block
+ * Plugin URI: https://github.com/merbird/modal-block
+ * Description: This is a Gutenberg block modal / popup plugin
  * Author: Mark Bird
  * Version: 1.0.0
  * License: GPL2+
