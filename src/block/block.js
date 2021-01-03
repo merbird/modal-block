@@ -4,13 +4,14 @@
  * Allows modal / popup block for use in the Gutenberg editor. 
  */
 
+//  v1.1 - Update for deprecated wp.editor (changed to wp.blockEditor) and core/editor (changed to core/block-editor).
 //  Import CSS.
 import './style.scss';
 import './editor.scss';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
-const { InspectorControls, MediaUpload, PlainText, InnerBlocks } = wp.editor;
+const { InspectorControls, MediaUpload, PlainText, InnerBlocks } = wp.blockEditor;
 const { CheckboxControl, SelectControl, ColorPicker, PanelBody} = wp.components;
 
 // takes the style type attributes entered in the backend form and converts them to inline styles
@@ -233,7 +234,7 @@ registerBlockType( 'bod/modal-block', {
 		// returns true if child innerblock is selected
 
 		function checkInnerblockSelected () {
-			const select = wp.data.select('core/editor');
+			const select = wp.data.select('core/block-editor');
 			const selected = select.getBlockSelectionStart();
 			const inner = select.getBlock(clientId).innerBlocks;
 			for (let i = 0; i < inner.length; i++) {

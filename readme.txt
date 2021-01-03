@@ -7,10 +7,10 @@ Tags: gutenberg, modal, popup, window
 Author: Mark Bird
 Donate link: https://paypal.me/SupportBodDev
 Requires at least: 5.0
-Tested up to: 5.5.1
+Tested up to: 5.6
 Requires PHP: 5.6
 Stable tag: trunk
-Version: 1.0
+Version: 1.1
 License: GPLv3
 
 This plugin provides a Gutenberg Modal / Popup Block.
@@ -45,6 +45,8 @@ From your WordPress dashboard
 
 == Changelog ==
 
+= 1.1 =
+* Update for deprecated wp.editor (changed to wp.blockEditor) and core/editor (changed to core/block-editor).
 = 1.0.0 (8/19/2019) =
 * First release
 
