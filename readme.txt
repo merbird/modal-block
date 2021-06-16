@@ -7,7 +7,7 @@ Tags: gutenberg, modal, popup, window
 Author: Mark Bird
 Donate link: https://paypal.me/SupportBodDev
 Requires at least: 5.0
-Tested up to: 5.6
+Tested up to: 5.7.2
 Requires PHP: 5.6
 Stable tag: trunk
 Version: 1.2
