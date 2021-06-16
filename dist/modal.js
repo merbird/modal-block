@@ -18,7 +18,7 @@
 	};
 
 
-	// class used to manipulate the modal, there will be an seperate instance of the 
+	// class used to manipulate the modal, there will be a seperate instance of the 
 	// class for each modal on the page
 	// container - DOM object for modal 
 	var BodModal = function (container) {
@@ -71,6 +71,8 @@
 			.on('click' , this.hide);
 		this.$modalWrap = this.$container.find('.bod-block-popup-wrap');
 		this.$modalcloser = this.$container.find('.bod-block-popup-closer')
+		.on('click' , this.hide);
+		this.$btncloser = this.$container.find('.bod-block-close-btn .bod-btn')
 		.on('click' , this.hide);
 		this.$escCloser = $(document).on('keydown' , this.keyPress);
 

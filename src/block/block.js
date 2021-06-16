@@ -5,6 +5,7 @@
  */
 
 //  v1.1 - Update for deprecated wp.editor (changed to wp.blockEditor) and core/editor (changed to core/block-editor).
+//  v1.2 - Change icon to use SVG - use alt tag from trigger image - optional close btn in modal and set location to left / right / or middle
 //  Import CSS.
 import './style.scss';
 import './editor.scss';
@@ -102,7 +103,8 @@ const bodFormatStyles = (styles) => {
 registerBlockType( 'bod/modal-block', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 	title: __( 'Modal Block', 'bod-modal' ), // Block title.
-	icon: 'format-gallery', // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
+	icon: <svg role="img" viewBox="0 0 114.31 122.88" xmlns="http://www.w3.org/2000/svg">
+		<path class="custom-icon-modalblock" d="M69.88,71.65h35.78a8.68,8.68,0,0,1,8.65,8.66v33.92a8.67,8.67,0,0,1-8.65,8.65H69.88a8.67,8.67,0,0,1-8.65-8.65V80.31a8.68,8.68,0,0,1,8.65-8.66ZM26.26,78.12a3.35,3.35,0,0,1-3.17-3.46,3.29,3.29,0,0,1,3.17-3.45H42.9a3.34,3.34,0,0,1,3.17,3.45,3.29,3.29,0,0,1-3.17,3.46Zm75.19-18.46h-7V8.1a1.17,1.17,0,0,0-.33-.82A1.2,1.2,0,0,0,93.34,7H8.06a1.15,1.15,0,0,0-.82.33,1.13,1.13,0,0,0-.33.82v96.35a1.13,1.13,0,0,0,1.15,1.16H45.17v7H8.1A8.16,8.16,0,0,1,0,104.45V8.1A7.93,7.93,0,0,1,2.39,2.39,8,8,0,0,1,8.1,0H93.39A7.92,7.92,0,0,1,99.1,2.39a8,8,0,0,1,2.39,5.71c0,39.79,0-9.25,0,51.56ZM26.22,33.12a3.36,3.36,0,0,1-3.17-3.46,3.3,3.3,0,0,1,3.17-3.46H75.14a3.35,3.35,0,0,1,3.17,3.46,3.3,3.3,0,0,1-3.17,3.46Zm0,22.5a3.36,3.36,0,0,1-3.17-3.46,3.29,3.29,0,0,1,3.17-3.45H75.14a3.34,3.34,0,0,1,3.17,3.45,3.29,3.29,0,0,1-3.17,3.46ZM75.65,99.16a2.41,2.41,0,0,1-2.08-1c-1.1-1.64.4-3.26,1.43-4.41,3-3.23,9.61-9.08,11.07-10.79a2.4,2.4,0,0,1,3.76,0c1.51,1.76,8.53,8,11.33,11.1,1,1.1,2.18,2.59,1.16,4.1a2.42,2.42,0,0,1-2.08,1H95v9.4a3,3,0,0,1-2.95,3H83.82a3,3,0,0,1-2.95-3v-9.4Z"/></svg>, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
 	category: 'widgets', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
 	keywords: [
 		__( 'modal' , 'bod-modal' ),
@@ -143,6 +145,10 @@ registerBlockType( 'bod/modal-block', {
 			selector: '.trigger_image',
 			default: ''
 		},
+		triggerImageAlt: {
+			type:"string",
+			default: ''
+		},		
 		imgSize: {
 			type: "string",
 			default: "medium"
@@ -214,6 +220,26 @@ registerBlockType( 'bod/modal-block', {
 		modalRadius: {
 			type: "string",
 			default: "10"
+		},
+		showCloseBtn: {
+			type: "string",
+			default: "no"
+		},
+		btnCloseLabel: {
+			type: "string",
+			default: "Close"
+		},
+		btnCloseBackgdColor: {
+			type: "string",
+			default: "rgba(0, 0, 0, 0.1)"	
+		},
+		btnCloseColor: {
+			type: "string",
+			default: "#ffffff"
+		},
+		btnCloseAlign: {
+			type: "string",
+			default: "center"
 		}
 	},
 
@@ -268,6 +294,7 @@ registerBlockType( 'bod/modal-block', {
 			// setAttributes({ triggerImage: imageObject.id});
 			setAttributes({ triggerImageSizes: imageObject.sizes});
 			setAttributes({ triggerImageSrc: imageObject.sizes.medium.url});
+			setAttributes({ triggerImageAlt: imageObject.alt});
 
 			// we need to construct the labels for the image sizes select field
 			let imgSizesArray = Object.keys(imageObject.sizes); // make array of image sizes object
@@ -301,7 +328,7 @@ registerBlockType( 'bod/modal-block', {
 						<img 
 							className='trigger_image'
 							src={attributes.triggerImageSrc} 
-							alt='' 
+							alt={attributes.triggerImageAlt} 
 						/>
 					</a>
 				);
@@ -641,6 +668,54 @@ registerBlockType( 'bod/modal-block', {
 								placeholder={__('Modal radius for border','bod-modal')}
 							/>	
 
+							{/* Close Btn */}
+
+							<SelectControl
+								label={__('Show Close Btn','bod-modal')}
+							value={ attributes.showCloseBtn }
+							options= {[
+								{ label: __('No','bod-modal'), value: 'no' },
+								{ label: __('Yes','bod-modal'), value: 'yes' }
+							]}
+							onChange={ content => setAttributes({ showCloseBtn: content }) }
+							/>
+
+							<div className={hideFields('yes','showCloseBtn')}>
+
+								<label>{__('Close Btn Label:','bod-modal')}</label>	
+								<PlainText
+									onChange={ content => setAttributes({ btnCloseLabel: content }) }
+									value={ attributes.btnCloseLabel }
+									placeholder={__('Text to appear on close button','bod-modal')}
+								/>
+
+								<label>{__('Close Button Bg Color:','bod-modal')}</label>	
+								<ColorPicker
+									color={ attributes.btnCloseBackgdColor }
+									onChangeComplete={ ( color ) => setAttributes({ btnCloseBackgdColor: 'rgba(' + color.rgb.r + ',' + color.rgb.g + ',' + color.rgb.b + ',' + color.rgb.a + ')'}) }
+								/>		
+
+								<label>{__('Close Button Text Color:','bod-modal')}</label>	
+								<ColorPicker
+									color={ attributes.btnCloseColor }
+									onChangeComplete={ ( color ) => setAttributes({ btnCloseColor: 'rgba(' + color.rgb.r + ',' + color.rgb.g + ',' + color.rgb.b + ',' + color.rgb.a + ')'}) }
+								/>	
+
+								{/* Align Trigger Text / Image*/}
+
+								<SelectControl
+								label={__('Close Button Align','bod-modal')}
+								value={ attributes.btnCloseAlign }
+								options= {[
+									{ label: __('Left','bod-modal'), value: 'left' },
+									{ label: __('Center','bod-modal'), value: 'center' },
+									{ label: __('Right','bod-modal'), value: 'right' },
+								]}
+								onChange={ content => setAttributes({ btnCloseAlign: content }) }
+								/>
+
+							</div> {/* end close button wrapper */}
+
 
 						</PanelBody>
 						
@@ -673,7 +748,7 @@ registerBlockType( 'bod/modal-block', {
 						<img 
 							className='trigger_image'
 							src={attributes.triggerImageSrc} 
-							alt='' 
+							alt={attributes.triggerImageAlt}
 						/>
 					</a>
 				);
@@ -708,6 +783,21 @@ registerBlockType( 'bod/modal-block', {
 			
 		}
 
+		// format the close button 
+
+		const closeBtn = () => {
+			if (attributes.showCloseBtn === 'yes') {
+				let classStyles = bodFormatStyles ({'backgroundColor': attributes.btnCloseBackgdColor, 'color' : attributes.btnCloseColor});
+				return (
+					<div className={'bod-block-close-btn' + ' align-' + attributes.btnCloseAlign}>
+						<button type="button" style={classStyles} className="type_btn bod-btn">
+							{attributes.btnCloseLabel}
+						</button>
+					</div>
+				);
+			}
+		}
+
 		return (
 			<div className= {'bod-block-popup ' + 'align-' + attributes.textAlign}>
 				{trigger()}
@@ -723,6 +813,7 @@ registerBlockType( 'bod/modal-block', {
 						</div> {/* end title */}
 						<div id=""  style={bodFormatStyles ({'padding': attributes.modalPadding})} className="bod-modal-content">
 							{<InnerBlocks.Content/>}
+							{closeBtn()}
 						</div> {/* end content */}
 						
 					</div> {/* end modal content */}

@@ -44,7 +44,8 @@ From your WordPress dashboard
 2. Modal Guten Block in editor. 
 
 == Changelog ==
-
+= 1.2 =
+* Change icon to use SVG - use alt tag from trigger image - optional close btn in modal 
 = 1.1 =
 * Update for deprecated wp.editor (changed to wp.blockEditor) and core/editor (changed to core/block-editor).
 = 1.0.0 (8/19/2019) =

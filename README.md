@@ -77,6 +77,16 @@ This project provides a modal / popup block for the  WordPress Gutenberg editor.
 
 **Modal Border Radius** Used to create rounded corners. Can be px, em, rem, % or mix of values. For example, '10px', '5rem 10px', '10px 5px 10px 10px'. Specify a max of 4 values in standard border-radius css format.
 
+**Show Close Btn** Defaults to N. If yes close button is displayed in the modal window.
+
+**Close Btn Label** Label text for close button.
+
+**Close Btn Bg Color** Bavkground color for close button.
+
+**Close Btn Text Color** Color for close button text.
+
+**Close Button Align** Align the close button to the left, center or right in the modal window. 
+
 ## Requirements
 
 Wordpress 5+
