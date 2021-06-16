@@ -10,7 +10,7 @@ Requires at least: 5.0
 Tested up to: 5.6
 Requires PHP: 5.6
 Stable tag: trunk
-Version: 1.1
+Version: 1.2
 License: GPLv3
 
 This plugin provides a Gutenberg Modal / Popup Block.
