@@ -1,5 +1,6 @@
 /**
  * Modal jquery code
+ * 8/2/2021 - add code to allow timer modal to optionally display only once via the use of a cookie
  */
 (function($){
 	"use strict";
@@ -16,6 +17,22 @@
 
 		});
 	};
+
+	var checkForCookie = function(cookieName){
+		let name = cookieName + "=";
+		let decodedCookie = decodeURIComponent(document.cookie);
+		let ca = decodedCookie.split(';');
+		for(let i = 0; i <ca.length; i++) {
+		  let c = ca[i];
+		  while (c.charAt(0) == ' ') {
+			 c = c.substring(1);
+		  }
+		  if (c.indexOf(name) == 0) {
+			 return c.substring(name.length, c.length);
+		  }
+		}
+		return "";
+	}
 
 
 	// class used to manipulate the modal, there will be a seperate instance of the 
@@ -56,10 +73,39 @@
 			}
 		} else if (this.$trigger.hasClass('type_load')) {
 			// we have show on page load
-			// we need to extract the delay amd set a timeout using it
-			var loadDelay = this.$trigger.attr('data-delay');
-			isNaN(parseInt(loadDelay)) ? loadDelay = 1000 : loadDelay = parseInt(loadDelay);
-			this.timer = setTimeout(this.show, loadDelay);
+			
+			// need to load the data-once attribute which will be either no , or yes
+
+			var loadOnce = this.$trigger.attr('data-once');
+			var triggerTimer = true;
+			if (loadOnce) {			
+				if (loadOnce === 'yes') {
+						let modalId = this.$trigger.attr('data-id');
+						if (!modalId) modalId= "";
+						let modalOnce = checkForCookie ("bodModalOnce" + modalId);
+						if (modalOnce) triggerTimer = false;
+				}								
+			}
+
+
+			if (triggerTimer) {
+				// we need to extract the delay amd set a timeout using it
+				var loadDelay = this.$trigger.attr('data-delay');
+				isNaN(parseInt(loadDelay)) ? loadDelay = 1000 : loadDelay = parseInt(loadDelay);
+
+				// if we only want to show the modal once we exact the UID provided when the modal created (optional), and the number of days we wait until we show the 
+				// modal again (this is added to the cookie)
+				if (loadOnce) {
+					let modalId = this.$trigger.attr('data-id');
+					if (!modalId) modalId= "";
+					let noShowDays = this.$trigger.attr('data-days');
+					isNaN(parseInt(noShowDays)) ? noShowDays = 30 : noShowDays = parseInt(noShowDays);
+					this.timer = setTimeout(this.show, loadDelay, loadOnce, modalId , noShowDays);
+				} else {
+					this.timer = setTimeout(this.show, loadDelay);
+				}
+			}
+
 		} else { // must be button, text, or image trigger
 			this.$trigger.on('click', this.show); // attach click event
 		}
@@ -81,7 +127,23 @@
 	}
 
 	BodModal.prototype = {
-		show: function(){
+		show: function(loadOnce , modalId, noShowDays ){
+
+			if (loadOnce) {
+				// check if we need to set a cookie to stop modal being shown mmore than once
+				if (loadOnce !== 'no') {
+					// flag set to say we only show once so set the cookie
+					const d = new Date();
+					d.setTime(d.getTime() + (noShowDays*24*60*60*1000));
+					let expires = "expires="+ d.toUTCString();
+					if (modalId) {
+						var cookie = "bodModalOnce" + modalId;
+					} else {
+						var cookie = "bodModalOnce";
+					}
+					document.cookie = cookie + "=" + loadOnce + ";" + expires + ";path=/";
+				}
+			}
 
 			// start to clearing any timeouts
 

@@ -46,16 +46,14 @@ function bod_modal_block_assets() { // phpcs:ignore
 	wp_register_style(
 		'bod-modal-block-style-css', // Handle.
 		plugins_url( 'dist/blocks.style.build.css', dirname( __FILE__ ) ), // Block style CSS.
-		array( 'wp-editor' ) // Dependency to include the CSS after it.
-		// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.style.build.css' ) // Version: File modification time.
+		array(  ) // Dependency to include the CSS after it.
 	);
 
 	// Backend styles
 	wp_register_style(
 		'bod-modal-block-editor-css', // Handle.
 		plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ), // Block editor CSS.
-		array( 'wp-edit-blocks' ) // Dependency to include the CSS after it.
-		// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.editor.build.css' ) // Version: File modification time.
+		array( 'wp-edit-blocks' , 'wp-editor' ) // Dependency to include the CSS after it.
 	);
 
 	/**

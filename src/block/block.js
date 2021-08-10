@@ -7,6 +7,7 @@
 //  v1.1 - Update for deprecated wp.editor (changed to wp.blockEditor) and core/editor (changed to core/block-editor).
 //  v1.2 - Change icon to use SVG - use alt tag from trigger image - optional close btn in modal and set location to left / right / or middle
 //  Import CSS.
+//  v1.3 - Option to allow for the timer based modal to be displayed only once.  
 import './style.scss';
 import './editor.scss';
 
@@ -182,6 +183,18 @@ registerBlockType( 'bod/modal-block', {
 		showDelay: {
 			type: "string",
 			default: "0"
+		},	
+		showOnce: {
+			type: "string",
+			default: "no"
+		},
+		modalId: {
+			type: "string",
+			default: ""
+		},
+		noShowDays: {
+			type: "string",
+			default: ""
 		},	
 		triggerSelector: {
 			type: "string",
@@ -559,6 +572,34 @@ registerBlockType( 'bod/modal-block', {
 									value={ attributes.showDelay }
 									placeholder={__('Delay before showing modal popup','bod-modal')}
 								/>		
+
+								<SelectControl
+									label={__('Show Once','bod-modal')}
+								value={ attributes.showOnce }
+								options= {[
+									{ label: __('No','bod-modal'), value: 'no' },
+									{ label: __('Yes','bod-modal'), value: 'yes' },
+								]}
+								onChange={ content => setAttributes({ showOnce: content }) }
+								/>
+
+								{/* No Show Days */}
+
+								<label>{__('Show Once Every X Days')}</label>	
+								<PlainText
+									onChange={ content => setAttributes({ noShowDays: content }) }
+									value={ attributes.noShowDays }
+									placeholder={__('Number of Days','bod-modal')}
+								/>
+
+								{/* Modal ID */}
+
+								<label>{__('Modal Identifier')}</label>	
+								<PlainText
+									onChange={ content => setAttributes({ modalId: content }) }
+									value={ attributes.modalId }
+									placeholder={__('Modal Id','bod-modal')}
+								/>		
 							</div>
 
 							<div className={hideFields('selector', 'showOn')}>
@@ -765,9 +806,15 @@ registerBlockType( 'bod/modal-block', {
 					</a>					
 				);
 			} else if (attributes.showOn === 'load') {
+				if (attributes.showOnce !== 'no') {
 				return (
-					<span className = "bod-block-popup-trigger type_load" data-delay={attributes.showDelay}></span>
+					<span className = "bod-block-popup-trigger type_load" data-delay={attributes.showDelay} data-once={attributes.showOnce} data-id={attributes.modalId} data-days={attributes.noShowDays}></span>
 				);
+				} else {
+					return (
+						<span className = "bod-block-popup-trigger type_load" data-delay={attributes.showDelay}></span>
+					);					
+				}
 			} else if (attributes.showOn === 'selector') {
 				return (
 					<span className="bod-block-popup-trigger type_selector" data-selector={attributes.triggerSelector}></span>

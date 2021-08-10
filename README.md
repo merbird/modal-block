@@ -57,6 +57,12 @@ This project provides a modal / popup block for the  WordPress Gutenberg editor.
 
 **Delay Before Showing Modal** Timer delay in ms before displaying modal (1000 = 1 second).
 
+**Display Once** Display the modal one time only.
+
+**Modal Id** Optional ID used to identify modals on different pages as the same. That is, all modals with the same ID and Display Once set to yes are treated as the same modal. Used to stop same modal on different pages being displayed more than once.
+
+**Show Once Every x Days** Optional number of days before display once expires and modal is shown again. If not set defaults to 30 days.
+
 ### Style Options
 
 **Overlay Background Color** RGBA / Hex modal overlay color.

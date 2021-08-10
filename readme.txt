@@ -7,10 +7,10 @@ Tags: gutenberg, modal, popup, window
 Author: Mark Bird
 Donate link: https://paypal.me/SupportBodDev
 Requires at least: 5.0
-Tested up to: 5.7.2
+Tested up to: 5.8
 Requires PHP: 5.6
 Stable tag: trunk
-Version: 1.2
+Version: 1.3
 License: GPLv3
 
 This plugin provides a Gutenberg Modal / Popup Block.
@@ -44,6 +44,8 @@ From your WordPress dashboard
 2. Modal Guten Block in editor. 
 
 == Changelog ==
+= 1.3 =
+* Optional display only once for timer based modals. Modal Id links timer modals on different pages to say they are the same. Also ability to say how long before modal is shown again.
 = 1.2 =
 * Change icon to use SVG - use alt tag from trigger image - optional close btn in modal 
 = 1.1 =
