@@ -1,6 +1,7 @@
 /**
  * Modal jquery code
  * 8/2/2021 - add code to allow timer modal to optionally display only once via the use of a cookie
+ * 8/17/2021 - do not allow timer modal to display if another modal already open
  */
 (function($){
 	"use strict";
@@ -10,7 +11,7 @@
 
 
 		// if we have already inited this type of element
-		$('.bod-block-popup').each(function(){
+		$('.wp-block-bod-modal-block').each(function(){
 			// for the identified modal we add an instance of the class BodModal 
 			// to the data element  
 			$(this).data('bod-block-popup', new BodModal(this));
@@ -45,11 +46,11 @@
 
 		// Markup the aria labels
 
-		window.bodModalCount ++; // get modal number to append to get unique id
-		this.$container.find('.bod-block-popup-wrap').attr('aria-labelledby','bodModalAriaTitle' + window.bodModalCount);
-		this.$container.find('.bod-modal-title').attr('id' , 'bodModalAriaTitle' + window.bodModalCount);
-		this.$container.find('.bod-block-popup-wrap').attr('aria-describedby','bodModalAriaContent' + window.bodModalCount);
-		this.$container.find('.bod-modal-content').attr('id' , 'bodModalAriaContent' + window.bodModalCount);
+		bodModalCount ++; // get modal number to append to get unique id
+		this.$container.find('.bod-block-popup-wrap').attr('aria-labelledby','bodModalAriaTitle' + bodModalCount);
+		this.$container.find('.bod-modal-title').attr('id' , 'bodModalAriaTitle' + bodModalCount);
+		this.$container.find('.bod-block-popup-wrap').attr('aria-describedby','bodModalAriaContent' + bodModalCount);
+		this.$container.find('.bod-modal-content').attr('id' , 'bodModalAriaContent' + bodModalCount);
 
 
 		// bind our functions to this so we use current rather than event version of this
@@ -129,6 +130,13 @@
 	BodModal.prototype = {
 		show: function(loadOnce , modalId, noShowDays ){
 
+			// if we try and show a modal but one is already open then return without showing the new one
+			if (bodModalActive === true) {
+				return;
+			} 
+
+			bodModalActive = true;
+
 			if (loadOnce) {
 				// check if we need to set a cookie to stop modal being shown mmore than once
 				if (loadOnce !== 'no') {
@@ -164,7 +172,7 @@
 			clearTimeout(this.timer);
 			this.$overlay.addClass('active');
 			this.$modalWrap.addClass('active');
-			this.$modalWrap.attr('aria-modal','true'); 
+			this.$modalWrap.attr('aria-modal','true');
 
 		},
 		hide: function() {
@@ -174,6 +182,7 @@
 			this.$overlay.appendTo(this.$container).hide();
 			this.$modalWrap.appendTo(this.$container).hide();
 			this.$modalWrap.attr('aria-modal','false'); 
+			bodModalActive = false;
 		},	
 		keyPress: function(e) {
 			if ( e.keyCode === 27 ) { // ESC
@@ -182,7 +191,8 @@
 		},
 	}
 
-	window.bodModalCount = 0; // global count of modals
+	var bodModalCount = 0; // global count of modals
+	var bodModalActive = false;
 	initElements();
 	
 })(jQuery);
