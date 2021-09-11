@@ -8,14 +8,14 @@
 //  v1.2 - Change icon to use SVG - use alt tag from trigger image - optional close btn in modal and set location to left / right / or middle
 //  Import CSS.
 //  v1.3 - Option to allow for the timer based modal to be displayed only once.  
-//  v1.4 - Use Button instead of span, add custom class to dialog
+//  v1.4 - Use Button instead of span, add custom class to dialog, add toggle to disable close on overlay click
 import './style.scss';
 import './editor.scss';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 const { InspectorControls, MediaUpload, PlainText, InnerBlocks } = wp.blockEditor;
-const { CheckboxControl, SelectControl, ColorPicker, PanelBody} = wp.components;
+const { CheckboxControl, SelectControl, ColorPicker, PanelBody, ToggleControl} = wp.components;
 
 const blockAttributes = {
 	title: {
@@ -103,6 +103,10 @@ const blockAttributes = {
 	triggerSelector: {
 		type: "string",
 		default: "triggerclass"
+	},
+	disableOverlayClose: {
+		type: "boolean",
+		default: false
 	},
 	overlayBackgdColor: {
 		type: "string",
@@ -711,6 +715,14 @@ registerBlockType( 'bod/modal-block', {
 								placeholder={__('Modal radius for border','bod-modal')}
 							/>	
 
+							{/* Disable Overlay Close */}
+
+							<ToggleControl
+								label={__('Disable Close on Overlay Click','bod-modal')}
+								checked={ attributes.disableOverlayClose}
+								onChange={ () => setAttributes({ disableOverlayClose : !attributes.disableOverlayClose }) }
+							/>
+
 							{/* Close Btn */}
 
 							<SelectControl
@@ -853,7 +865,7 @@ registerBlockType( 'bod/modal-block', {
 				{trigger()}
 			
 				{/* Modal Overlay */}
-				<div style={bodFormatStyles ({'backgroundColor': attributes.overlayBackgdColor})} className="bod-block-popup-overlay"></div>
+				<div style={bodFormatStyles ({'backgroundColor': attributes.overlayBackgdColor})} className="bod-block-popup-overlay" data-disabled-overlay-close={attributes.disableOverlayClose ? "true" : "false"}></div>
 			
 				<div role="dialog" aria-modal="false" aria-labelledby="" aria-describedby="" className={"bod-block-popup-wrap " + attributes.className}>
 					{/* Modal Content */}

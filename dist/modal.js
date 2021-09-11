@@ -14,7 +14,8 @@
 		$('.wp-block-bod-modal-block').each(function(){
 			// for the identified modal we add an instance of the class BodModal 
 			// to the data element  
-			$(this).data('bod-block-popup', new BodModal(this));
+			// $(this).data('bod-block-popup', new BodModal(this));
+			bodModals.push(new BodModal(this));
 
 		});
 	};
@@ -43,6 +44,7 @@
 		// convert passed in DOM modal container to jquery object so we can apply jquery methods
 		this.$container = $(container);
 		this.$trigger = this.$container.find('.bod-block-popup-trigger');
+		this.$overlay = this.$container.find('.bod-block-popup-overlay');
 
 		// Markup the aria labels
 
@@ -114,8 +116,16 @@
 		// setup the overlay and content wrap, put them into a jquery object and 
 		// attach the hide event for the click
 
-		this.$overlay = this.$container.find('.bod-block-popup-overlay')
-			.on('click' , this.hide);
+		// check to see if we have disabled the close on overlay click in the frontend
+		var disableOverlayClose = this.$overlay.attr('data-disabled-overlay-close');
+		if (!disableOverlayClose) {
+			this.$overlay.on('click' , this.hide);
+		} else {
+			if (disableOverlayClose === 'false') {
+				this.$overlay.on('click' , this.hide);				
+			}
+		}
+
 		this.$modalWrap = this.$container.find('.bod-block-popup-wrap');
 		this.$modalcloser = this.$container.find('.bod-block-popup-closer')
 		.on('click' , this.hide);
@@ -193,6 +203,7 @@
 
 	var bodModalCount = 0; // global count of modals
 	var bodModalActive = false;
+	var bodModals = [];
 	initElements();
 	
 })(jQuery);
