@@ -11,9 +11,9 @@ This project provides a modal / popup block for the  WordPress Gutenberg editor.
 
 ## Options
 
-**Model Title** Title to display at the top of the modal window.
+**Modal Title** Title to display at the top of the modal window.
 
-**Model Content** Block into which you can add other blocks to create required modal content.
+**Modal Content** Block into which you can add other blocks to create required modal content.
 
 ### Trigger Options
 
@@ -82,6 +82,8 @@ This project provides a modal / popup block for the  WordPress Gutenberg editor.
 **Modal Padding** Padding around modal portion of window. Can be px, em, rem, % or mix of values. For example, '10px', '5rem 10px', '10px 5px 10px 10px'. Specify a max of 4 values in standard padding css format.
 
 **Modal Border Radius** Used to create rounded corners. Can be px, em, rem, % or mix of values. For example, '10px', '5rem 10px', '10px 5px 10px 10px'. Specify a max of 4 values in standard border-radius css format.
+
+**Disable Close on Overlay Click** Toogle defaults to off. If set to on then user cannot close modal by clicking on overlay.
 
 **Show Close Btn** Defaults to N. If yes close button is displayed in the modal window.
 

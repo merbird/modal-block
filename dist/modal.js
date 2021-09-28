@@ -133,7 +133,17 @@
 		.on('click' , this.hide);
 		this.$escCloser = $(document).on('keydown' , this.keyPress);
 
+		// Javascript modal wrap
 
+		this.modalWrap = container.querySelector('.bod-block-popup-wrap'); 
+
+		// capture first, all and last focusable elements so we can enforce modal focus trap for ADA
+		this.focusableContent = this.modalWrap.querySelectorAll(focusableElements);
+		if (this.focusableContent) {
+			this.firstFocusableElement = this.focusableContent[0]; // get first element to be focused inside modal
+			this.lastFocusableElement = this.focusableContent[this.focusableContent.length - 1]; // get last element to be focused inside modal
+		}
+		this.modalOpen = false;
 
 	}
 
@@ -184,6 +194,14 @@
 			this.$modalWrap.addClass('active');
 			this.$modalWrap.attr('aria-modal','true');
 
+			this.modalOpen = true;
+			this.triggerElement = document.activeElement;
+			if (this.firstFocusableElement) {
+				this.firstFocusableElement.focus();
+			} else {
+				document.activeElement.blur();
+			}
+
 		},
 		hide: function() {
 			this.$overlay.removeClass('active');
@@ -193,13 +211,56 @@
 			this.$modalWrap.appendTo(this.$container).hide();
 			this.$modalWrap.attr('aria-modal','false'); 
 			bodModalActive = false;
+			this.modalOpen = false;
+
+			// return focus to element that was active before modal called
+			if (this.triggerElement) this.triggerElement.focus();
 		},	
 		keyPress: function(e) {
 			if ( e.keyCode === 27 ) { // ESC
 				this.hide();
 			}
+
+			// here we do the ADA focus trap but only if the modal is open
+
+			if (this.modalOpen) {
+
+				// code to enforce focus trap for ADA
+
+				let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+
+				// if keypress is not tab do nothing
+				if (!isTabPressed) {
+					return;
+				}
+		 
+				// Do we have at least one element in the modal that can receive focus 
+				if (this.firstFocusableElement) {
+					if (e.shiftKey) { // if shift key pressed for shift + tab combination
+						if (document.activeElement === this.firstFocusableElement) {
+							this.lastFocusableElement.focus(); // add focus for the last focusable element
+							e.preventDefault();
+						}
+					} else { // if tab key is pressed
+						if (document.activeElement === this.lastFocusableElement) { // if focused has reached to last focusable element then focus first focusable element after pressing tab
+							this.firstFocusableElement.focus(); // add focus for the first focusable element
+							e.preventDefault();
+						}
+					}
+				} else {
+					// if we are here the modal is open and the tab key has been pressed 
+					// but there are no elements in the modal that can receive focus.
+					// Therefore we do not want to provide focus to any element outside 
+					// the modal.
+					e.preventDefault();
+				}
+			}
 		},
 	}
+
+	// set the elements we can focus on so we can use to enforce focus trap
+	const focusableElements =
+	'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 	var bodModalCount = 0; // global count of modals
 	var bodModalActive = false;
