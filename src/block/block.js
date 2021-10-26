@@ -9,6 +9,7 @@
 //  Import CSS.
 //  v1.3 - Option to allow for the timer based modal to be displayed only once.  
 //  v1.4 - Use Button instead of span, add custom class to dialog, add toggle to disable close on overlay click
+//  v1.4.1 - fix for when we use trigger on image and medium image size does not exist.
 import './style.scss';
 import './editor.scss';
 
@@ -312,7 +313,20 @@ registerBlockType( 'bod/modal-block', {
 
 			// setAttributes({ triggerImage: imageObject.id});
 			setAttributes({ triggerImageSizes: imageObject.sizes});
-			setAttributes({ triggerImageSrc: imageObject.sizes.medium.url});
+
+			// check if we have a medium size if not use the original full size
+
+			if (imageObject.sizes.medium !== undefined) {
+				setAttributes({ 
+					imgSize: 'medium',
+					triggerImageSrc: imageObject.sizes.medium.url});
+				
+			} else {
+				setAttributes({ 
+					imgSize: 'full',
+					triggerImageSrc: imageObject.sizes.full.url});
+			}
+
 			setAttributes({ triggerImageAlt: imageObject.alt});
 
 			// we need to construct the labels for the image sizes select field

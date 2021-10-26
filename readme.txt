@@ -3,14 +3,14 @@
 Contributors: merbmerb
 Plugin Name: Modal Block
 Plugin URI: https://github.com/merbird/modal-block
-Tags: gutenberg, modal, popup, window
+Tags: gutenberg, modal, popup, window, block
 Author: Mark Bird
 Donate link: https://paypal.me/SupportBodDev
 Requires at least: 5.0
 Tested up to: 5.8
 Requires PHP: 5.6
 Stable tag: trunk
-Version: 1.4
+Version: 1.4.1
 License: GPLv3
 
 This plugin provides a Gutenberg Modal / Popup Block.
@@ -45,6 +45,8 @@ From your WordPress dashboard
 2. Modal Guten Block in editor. 
 
 == Changelog ==
+= 1.4.1 =
+* Fix for when we trigger on image and image is smaller than medium size. In this case we default in the full size image.
 = 1.4 =
 * Make ADA compliant including using button instead of span, setting / returning focus and focus trapping.
 * Add custom class to dialog when modal opens.
