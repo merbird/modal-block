@@ -1,7 +1,9 @@
 /**
  * Modal jquery code
+ * 11/13/2021 - do not scroll to first focusable field
  * 8/2/2021 - add code to allow timer modal to optionally display only once via the use of a cookie
  * 8/17/2021 - do not allow timer modal to display if another modal already open
+ * 11/1/2021 - when setting focus on first element do not scroll
  */
 (function($){
 	"use strict";
@@ -197,7 +199,9 @@
 			this.modalOpen = true;
 			this.triggerElement = document.activeElement;
 			if (this.firstFocusableElement) {
-				this.firstFocusableElement.focus();
+				this.firstFocusableElement.focus({
+					preventScroll: true
+				});
 			} else {
 				document.activeElement.blur();
 			}
