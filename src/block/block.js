@@ -10,6 +10,8 @@
 //  v1.3 - Option to allow for the timer based modal to be displayed only once.  
 //  v1.4 - Use Button instead of span, add custom class to dialog, add toggle to disable close on overlay click
 //  v1.4.1 - fix for when we use trigger on image and medium image size does not exist.
+//  v1.4.2 - fix where clicking on nested content causes modal window to close when editing
+
 import './style.scss';
 import './editor.scss';
 
@@ -280,14 +282,20 @@ registerBlockType( 'bod/modal-block', {
 		// returns true if child innerblock is selected
 
 		function checkInnerblockSelected () {
+
 			const select = wp.data.select('core/block-editor');
+//			const isParentOfSelectedBlock = useSelect( ( select ) => select( 'core/block-editor' ).hasSelectedInnerBlock( clientId, true ) );
+			const isParentOfSelectedBlock = select.hasSelectedInnerBlock( clientId, true );
+			return (isParentOfSelectedBlock ? true : false);			
 			const selected = select.getBlockSelectionStart();
 			const inner = select.getBlock(clientId).innerBlocks;
 			for (let i = 0; i < inner.length; i++) {
-				if (inner[i].clientId === selected) {
+				if (inner[i].clientId === selected || inner[i].innerBlocks.length && hasSelectedInnerBlock(inner[i])) {
+					console.log ('innerblock clicked');
 					return true;
 				}
 			}
+			console.log ('innerblock not clicked');
 			return false;
 		}
 

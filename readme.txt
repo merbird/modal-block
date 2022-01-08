@@ -10,7 +10,7 @@ Requires at least: 5.0
 Tested up to: 5.8
 Requires PHP: 5.6
 Stable tag: trunk
-Version: 1.4.1
+Version: 1.4.2
 License: GPLv3
 
 This plugin provides a Gutenberg Modal / Popup Block.
@@ -45,6 +45,9 @@ From your WordPress dashboard
 2. Modal Guten Block in editor. 
 
 == Changelog ==
+= 1.4.2 =
+* Fixed issue where clicking on nested content in edit mode resulted in modal edit content box closing.  
+* When modal opened focus on first element but do not scroll to it. Stops modal opening at bottom.
 = 1.4.1 =
 * Fix for when we trigger on image and image is smaller than medium size. In this case we default in the full size image.
 = 1.4 =
