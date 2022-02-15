@@ -4,6 +4,7 @@
  * 8/2/2021 - add code to allow timer modal to optionally display only once via the use of a cookie
  * 8/17/2021 - do not allow timer modal to display if another modal already open
  * 11/1/2021 - when setting focus on first element do not scroll
+ * 2/15/2022 - disable close modal on escape if disabled in the frontend 
  */
 (function($){
 	"use strict";
@@ -128,6 +129,18 @@
 			}
 		}
 
+		// check to see if we have disabled the close on escape key press in the frontend
+		var disableEscapeClose = this.$overlay.attr('data-disabled-escape-close');
+		if (!disableEscapeClose) {
+			this.disableEscapeClose = false;
+		} else {
+			if (disableEscapeClose === 'true') {
+				this.disableEscapeClose = true;			
+			} else {
+				this.disableEscapeClose = false;
+			}
+		}
+
 		this.$modalWrap = this.$container.find('.bod-block-popup-wrap');
 		this.$modalcloser = this.$container.find('.bod-block-popup-closer')
 		.on('click' , this.hide);
@@ -221,7 +234,7 @@
 			if (this.triggerElement) this.triggerElement.focus();
 		},	
 		keyPress: function(e) {
-			if ( e.keyCode === 27 ) { // ESC
+			if ( e.keyCode === 27 && !this.disableEscapeClose) { // ESC
 				this.hide();
 			}
 

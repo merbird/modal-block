@@ -7,10 +7,10 @@ Tags: gutenberg, modal, popup, window, block
 Author: Mark Bird
 Donate link: https://paypal.me/SupportBodDev
 Requires at least: 5.0
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.6
 Stable tag: trunk
-Version: 1.4.2
+Version: 1.4.3
 License: GPLv3
 
 This plugin provides a Gutenberg Modal / Popup Block.
@@ -45,6 +45,8 @@ From your WordPress dashboard
 2. Modal Guten Block in editor. 
 
 == Changelog ==
+= 1.4.3 =
+* Option to disable close modal on Escape key press.
 = 1.4.2 =
 * Fixed issue where clicking on nested content in edit mode resulted in modal edit content box closing.  
 * When modal opened focus on first element but do not scroll to it. Stops modal opening at bottom.

@@ -85,6 +85,8 @@ This project provides a modal / popup block for the  WordPress Gutenberg editor.
 
 **Disable Close on Overlay Click** Toogle defaults to off. If set to on then user cannot close modal by clicking on overlay.
 
+**Disable Close on Escape** Toogle defaults to off. If set to on then user cannot close modal by pressing Escape key.
+
 **Show Close Btn** Defaults to N. If yes close button is displayed in the modal window.
 
 **Close Btn Label** Label text for close button.
