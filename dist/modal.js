@@ -4,7 +4,9 @@
  * 8/2/2021 - add code to allow timer modal to optionally display only once via the use of a cookie
  * 8/17/2021 - do not allow timer modal to display if another modal already open
  * 11/1/2021 - when setting focus on first element do not scroll
- * 2/15/2022 - disable close modal on escape if disabled in the frontend 
+ * 2/15/2022 - disable close modal on escape if disabled in the frontend
+ * 4/5/2022 - Do not scroll when returning focus on modal close 
+ * 5/5/2022 - Allow for modals to call other modals
  */
 (function($){
 	"use strict";
@@ -146,6 +148,8 @@
 		.on('click' , this.hide);
 		this.$btncloser = this.$container.find('.bod-block-close-btn .bod-btn')
 		.on('click' , this.hide);
+		this.$modalToModal = this.$container.find('.bod-modal-to-modal')
+		.on('click' , this.hide);
 		this.$escCloser = $(document).on('keydown' , this.keyPress);
 
 		// Javascript modal wrap
@@ -166,7 +170,7 @@
 		show: function(loadOnce , modalId, noShowDays ){
 
 			// if we try and show a modal but one is already open then return without showing the new one
-			if (bodModalActive === true) {
+			if (this.$trigger.hasClass('type_load') && bodModalActive === true) {
 				return;
 			} 
 
@@ -231,7 +235,12 @@
 			this.modalOpen = false;
 
 			// return focus to element that was active before modal called
-			if (this.triggerElement) this.triggerElement.focus();
+			// but do not scroll to it
+			if (this.triggerElement) this.triggerElement.focus(
+				{
+					preventScroll: true
+				}
+			);
 		},	
 		keyPress: function(e) {
 			if ( e.keyCode === 27 && !this.disableEscapeClose) { // ESC
