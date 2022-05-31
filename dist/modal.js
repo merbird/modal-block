@@ -146,6 +146,8 @@
 		this.$modalWrap = this.$container.find('.bod-block-popup-wrap');
 		this.$modalcloser = this.$container.find('.bod-block-popup-closer')
 		.on('click' , this.hide);
+		this.$titlecloser = this.$container.find('.bod-block-title-closer')
+		.on('click' , this.hide);
 		this.$btncloser = this.$container.find('.bod-block-close-btn .bod-btn')
 		.on('click' , this.hide);
 		this.$modalToModal = this.$container.find('.bod-modal-to-modal')

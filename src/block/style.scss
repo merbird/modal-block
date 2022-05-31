@@ -94,6 +94,7 @@
 
     .bod-modal-title h2 {
       margin: 0; // reset margin on title h2 tag
+      clear: none;
     }
 
     max-width: 100%;
@@ -126,6 +127,31 @@
     transition: opacity 0.3s;
     opacity: 0;
     background-color: rgba($color: #ffff, $alpha: 0.2)
+  }
+
+  button.bod-block-title-closer {
+    float: right;
+    line-height: 1;
+    padding: 6px;
+    margin: 0;
+    border: none;
+    outline: none;
+    &:hover{
+      background-color: transparent;
+      color: black; 
+      border: none;
+      padding: 6px;
+    }
+    &:active {
+      background-color: transparent;
+      color: black; 
+      border: none;
+    }
+    &:not(:hover):not(:active){
+      background-color: transparent;
+      color: black;
+      border: none;
+    }
   }
 
 }

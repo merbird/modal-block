@@ -7,6 +7,7 @@ This project provides a modal / popup block for the  WordPress Gutenberg editor.
 - Multiple methods for triggering modal including button, text link, image link, external class, and page load.
 - User definable modal content using Gutenberg blocks, for example, image, paragraph etc. 
 - Supports multiple modals on the same page.
+- Allows for modal to modal links. Just add the class bod-modal-to-modal to the trigger link
 - Uses create-guton-block for easy config.
 
 ## Options
@@ -69,11 +70,15 @@ This project provides a modal / popup block for the  WordPress Gutenberg editor.
 
 **Title Text Size** Title uses H2 tag, this is used to change the size.
 
+**Title Align** Left, Center, Right
+
 **Modal Title Color** RGBA / Hex color to use for modal title text.
 
 **Modal Title Background Color** RGBA / Hex color for modal title box.
 
 **Title Padding** Padding around the title box. Can be px, em, rem, % or mix of values. For example, '10px', '5rem 10px', '10px 5px 10px 10px'. Specify a max of 4 values in standard padding css format.
+
+**Show Close X in Title** If selected a close 'X' button will be shown in the title bar of the modal. Note the screen level close X will not be shown.
 
 **Modal Size** One of Small (max 400px wide), Medium (max 600px wide), Large (max 800px wide),  XL (max 100px wide), FullScreen.
 

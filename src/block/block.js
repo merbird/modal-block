@@ -12,6 +12,7 @@
 //  v1.4.1 - fix for when we use trigger on image and medium image size does not exist.
 //  v1.4.2 - fix where clicking on nested content causes modal window to close when editing
 //  v1.4.3 - option to disable close modal on escape key
+//  v1.5 - modal to modal links, text align title, title close button
 
 import './style.scss';
 import './editor.scss';
@@ -131,6 +132,10 @@ const blockAttributes = {
 	modalPadding: {
 		type: "string"
 	},
+	titleAlign: {
+		type: "string",
+		default: "left"
+	},
 	titleSize: {
 		type: "string",
 		default: ""	
@@ -145,6 +150,10 @@ const blockAttributes = {
 	},
 	titlePadding: {
 		type: "string"
+	},
+	titleCloseBtn: {
+		type: "boolean",
+		default: false	
 	},
 	modalRadius: {
 		type: "string",
@@ -233,7 +242,7 @@ const bodFormatStyles = (styles) => {
 				}
 				break;
 			
-			case 'textAlign':
+			case 'text-align':
 				formatedStyles[style] = styles[style];
 				break;								
 		} // end switch 
@@ -439,6 +448,105 @@ const v2 = {
 	}
 };
 
+const v3 = {
+	attributes: blockAttributes,
+	save: function( {attributes} ) {
+
+
+		// format the trigger content which is either an image, link text, 
+
+		const trigger = () => {
+			if (attributes.showOn === 'image') {
+				return (
+					<a href="javascript:void(0)" className="bod-block-popup-trigger type_image">
+						<img 
+							className='trigger_image'
+							src={attributes.triggerImageSrc} 
+							alt={attributes.triggerImageAlt}
+						/>
+					</a>
+				);
+			} else if (attributes.showOn === 'text') {
+				let classStyles = '';
+				if (attributes.overrideLinkColor) {
+					classStyles = bodFormatStyles ({'fontSize': attributes.textSize, 'color' : attributes.textColor});
+				} else {
+					classStyles = bodFormatStyles ({'fontSize': attributes.textSize});
+				}
+				return (
+					<a href="javascript:void(0)" style={classStyles} className="bod-block-popup-trigger type_text">
+						{ attributes.triggerText }
+					</a>					
+				);
+			} else if (attributes.showOn === 'load') {
+				if (attributes.showOnce !== 'no') {
+				return (
+					<span className = "bod-block-popup-trigger type_load" data-delay={attributes.showDelay} data-once={attributes.showOnce} data-id={attributes.modalId} data-days={attributes.noShowDays}></span>
+				);
+				} else {
+					return (
+						<span className = "bod-block-popup-trigger type_load" data-delay={attributes.showDelay}></span>
+					);					
+				}
+			} else if (attributes.showOn === 'selector') {
+				return (
+					<span className="bod-block-popup-trigger type_selector" data-selector={attributes.triggerSelector}></span>
+				);
+			} else {
+				let classStyles = bodFormatStyles ({'backgroundColor': attributes.btnBackgdColor, 'color' : attributes.btnColor});
+				return (
+					<button type="button" style={classStyles} className="bod-block-popup-trigger type_btn bod-btn">
+						{attributes.btnLabel}
+					</button>
+				);
+			}
+			
+		}
+
+		// format the close button 
+
+		const closeBtn = () => {
+			if (attributes.showCloseBtn === 'yes') {
+				let classStyles = bodFormatStyles ({'backgroundColor': attributes.btnCloseBackgdColor, 'color' : attributes.btnCloseColor});
+				return (
+					<div className={'bod-block-close-btn' + ' align-' + attributes.btnCloseAlign}>
+						<button type="button" style={classStyles} className="type_btn bod-btn">
+							{attributes.btnCloseLabel}
+						</button>
+					</div>
+				);
+			}
+		}
+
+		return (
+
+			<div className= {'bod-block-popup ' + 'align-' + attributes.textAlign}>
+				{trigger()}
+			
+				{/* Modal Overlay */}
+				<div style={bodFormatStyles ({'backgroundColor': attributes.overlayBackgdColor})} className="bod-block-popup-overlay" data-disabled-overlay-close={attributes.disableOverlayClose ? "true" : "false"}  data-disabled-escape-close={attributes.disableEscapeClose ? "true" : "false"}></div>
+			
+				<div role="dialog" aria-modal="false" aria-labelledby="" aria-describedby="" className={"bod-block-popup-wrap " + attributes.className}>
+					{/* Modal Content */}
+					<div style={bodFormatStyles ({'backgroundColor': attributes.modalBackgdColor, 'borderRadius': attributes.modalRadius})} className={"bod-block-popup " + attributes.modalSize}>
+						<div id="" style={bodFormatStyles ({'backgroundColor': attributes.titleBackgdColor, 'padding': attributes.titlePadding}) } className = "bod-modal-title">
+							<h2 style={bodFormatStyles ({'color': attributes.titleColor, 'fontSize': attributes.titleSize})}>{attributes.title}</h2>
+						</div> {/* end title */}
+						<div id=""  style={bodFormatStyles ({'padding': attributes.modalPadding})} className="bod-modal-content">
+							{<InnerBlocks.Content/>}
+							{closeBtn()}
+						</div> {/* end content */}
+						
+					</div> {/* end modal content */}
+					<div className="bod-block-popup-closer"></div>
+				</div>
+
+			</div>
+		);
+	},
+};
+
+
 /**
  * Register: Gutenberg Block.
  *
@@ -484,19 +592,8 @@ registerBlockType( 'bod/modal-block', {
 		function checkInnerblockSelected () {
 
 			const select = wp.data.select('core/block-editor');
-//			const isParentOfSelectedBlock = useSelect( ( select ) => select( 'core/block-editor' ).hasSelectedInnerBlock( clientId, true ) );
 			const isParentOfSelectedBlock = select.hasSelectedInnerBlock( clientId, true );
 			return (isParentOfSelectedBlock ? true : false);			
-			const selected = select.getBlockSelectionStart();
-			const inner = select.getBlock(clientId).innerBlocks;
-			for (let i = 0; i < inner.length; i++) {
-				if (inner[i].clientId === selected || inner[i].innerBlocks.length && hasSelectedInnerBlock(inner[i])) {
-					console.log ('innerblock clicked');
-					return true;
-				}
-			}
-			console.log ('innerblock not clicked');
-			return false;
 		}
 
 		// hide fields if fieldtype does not match the one passed in
@@ -642,7 +739,7 @@ registerBlockType( 'bod/modal-block', {
 				
 					{/* Modal Content */}
 					<div  role="dialog" aria-modal="false" aria-labelledby="" aria-describedby=""  style={bodFormatStyles ({'backgroundColor': attributes.modalBackgdColor, 'borderRadius': attributes.modalRadius})} className={"bod-block-popup-wrap " + attributes.modalSize}>
-						<div id="" style={bodFormatStyles ({'backgroundColor': attributes.titleBackgdColor, 'padding': attributes.titlePadding}) } className = "bod-modal-title">
+						<div id="" style={bodFormatStyles ({'backgroundColor': attributes.titleBackgdColor, 'padding': attributes.titlePadding, 'text-align': attributes.titleAlign}) } className = "bod-modal-title">
 							<h2 style={bodFormatStyles ({'color': attributes.titleColor, 'fontSize': attributes.titleSize})}>{attributes.title}</h2>
 						</div> {/* end title */}
 						<div id=""  style={bodFormatStyles ({'padding': attributes.modalPadding})} className="bod-modal-content">
@@ -868,6 +965,21 @@ registerBlockType( 'bod/modal-block', {
 								value={ attributes.titleSize }
 								placeholder={__('Modal Title Text Size px, em, rem, %','bod-modal')}
 							/>	
+
+
+							{/* Title Align */}
+
+							<SelectControl
+							label={__('Title Align','bod-modal')}
+							value={ attributes.titleAlign }
+							options= {[
+								{ label: __('Left','bod-modal'), value: 'left' },
+								{ label: __('Center','bod-modal'), value: 'center' },
+								{ label: __('Right','bod-modal'), value: 'right' },
+							]}
+							onChange={ content => setAttributes({ titleAlign: content }) }
+							/>
+
 							
 							{/* Title color */}
 
@@ -894,6 +1006,16 @@ registerBlockType( 'bod/modal-block', {
 								value={ attributes.titlePadding }
 								placeholder={__('Title padding px, em, rem, %','bod-modal')}
 							/>	
+
+							{/* Show Close X in Title */}
+
+							<CheckboxControl
+								label={__('Show Close X in Title:','bod-modal')}
+								checked={ attributes.titleCloseBtn }
+								onChange={ (isChecked) => 
+										setAttributes({titleCloseBtn: isChecked})
+								}
+							/>
 
 							{/* Modal Size */}
 
@@ -1089,6 +1211,28 @@ registerBlockType( 'bod/modal-block', {
 			}
 		}
 
+		// format the title closer x
+
+		const closer = () => {
+			if (attributes.titleCloseBtn) {
+				return (
+					<button type="button" class="bod-block-title-closer" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				);
+			}
+		}
+
+		// format the modal closer x
+
+		const modalCloser = () => {
+			if (!attributes.titleCloseBtn) {
+				return (
+					<div className="bod-block-popup-closer"></div>
+				);
+			}
+		}
+
 		return (
 
 			<div className= {'bod-block-popup ' + 'align-' + attributes.textAlign}>
@@ -1100,7 +1244,8 @@ registerBlockType( 'bod/modal-block', {
 				<div role="dialog" aria-modal="false" aria-labelledby="" aria-describedby="" className={"bod-block-popup-wrap " + attributes.className}>
 					{/* Modal Content */}
 					<div style={bodFormatStyles ({'backgroundColor': attributes.modalBackgdColor, 'borderRadius': attributes.modalRadius})} className={"bod-block-popup " + attributes.modalSize}>
-						<div id="" style={bodFormatStyles ({'backgroundColor': attributes.titleBackgdColor, 'padding': attributes.titlePadding}) } className = "bod-modal-title">
+						<div id="" style={bodFormatStyles ({'backgroundColor': attributes.titleBackgdColor, 'padding': attributes.titlePadding, 'text-align': attributes.titleAlign}) } className = "bod-modal-title">
+							{closer()}
 							<h2 style={bodFormatStyles ({'color': attributes.titleColor, 'fontSize': attributes.titleSize})}>{attributes.title}</h2>
 						</div> {/* end title */}
 						<div id=""  style={bodFormatStyles ({'padding': attributes.modalPadding})} className="bod-modal-content">
@@ -1109,11 +1254,11 @@ registerBlockType( 'bod/modal-block', {
 						</div> {/* end content */}
 						
 					</div> {/* end modal content */}
-					<div className="bod-block-popup-closer"></div>
+					{modalCloser()}
 				</div>
 
 			</div>
 		);
 	},
-	deprecated: [ v2, v1],
+	deprecated: [ v3, v2, v1],
 } );

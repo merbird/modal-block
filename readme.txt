@@ -7,10 +7,10 @@ Tags: gutenberg, modal, popup, window, block
 Author: Mark Bird
 Donate link: https://paypal.me/SupportBodDev
 Requires at least: 5.0
-Tested up to: 5.9
+Tested up to: 6
 Requires PHP: 5.6
 Stable tag: trunk
-Version: 1.4.3
+Version: 1.5
 License: GPLv3
 
 This plugin provides a Gutenberg Modal / Popup Block.
@@ -25,6 +25,12 @@ This project provides a modal / popup block for the  WordPress Gutenberg editor.
 - Lots of customizable options including Trigger Button Label, Button Color, Trigger Text, Trigger Text Size, Trigger Image, Trigger Class, Modal Delay, Trigger Element Alignment, Overlay Background Color, Title Text Size, Title Font Color, Title Background Color, Title Padding, Border Radius.
 - Supports multiple modals on the same page.
 - ADA compliant.
+- Modal to modal links.
+- Multiple ways to close the modal. 
+    - Escape key
+    - Close button 'X' in the top right of the screen.
+    - Close button 'X' in the modal title.
+    - Close button at the bottom on the modal content.
 - Uses create-guton-block for easy config.
 
 == Installation ==
@@ -45,6 +51,8 @@ From your WordPress dashboard
 2. Modal Guten Block in editor. 
 
 == Changelog ==
+= 1.5 =
+* modal to modal links, text align title, title close button
 = 1.4.3 =
 * Option to disable close modal on Escape key press.
 = 1.4.2 =
