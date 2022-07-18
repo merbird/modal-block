@@ -7,10 +7,10 @@ Tags: gutenberg, modal, popup, window, block
 Author: Mark Bird
 Donate link: https://paypal.me/SupportBodDev
 Requires at least: 5.0
-Tested up to: 6
+Tested up to: 6.0
 Requires PHP: 5.6
 Stable tag: trunk
-Version: 1.5
+Version: 2
 License: GPLv3
 
 This plugin provides a Gutenberg Modal / Popup Block.
@@ -51,6 +51,8 @@ From your WordPress dashboard
 2. Modal Guten Block in editor. 
 
 == Changelog ==
+= 2.0 =
+*  Modal background images. Separate options into Trigger, Modal, Title and Content panels. Title close X ability to define size. Trigger based on URL text.
 = 1.5 =
 * modal to modal links, text align title, title close button
 = 1.4.3 =

@@ -7,6 +7,7 @@
  * 2/15/2022 - disable close modal on escape if disabled in the frontend
  * 4/5/2022 - Do not scroll when returning focus on modal close 
  * 5/5/2022 - Allow for modals to call other modals
+ * 6/28/2022 - Allow for checking url for text before triggering modal
  */
 (function($){
 	"use strict";
@@ -95,6 +96,11 @@
 				}								
 			}
 
+			// check if we need to check for text in url to enable modal
+			var loadurl = this.$trigger.attr('data-urltrig');
+			if (loadurl) {
+				if (window.location.href.indexOf(loadurl)===-1) triggerTimer = false;
+			}
 
 			if (triggerTimer) {
 				// we need to extract the delay amd set a timeout using it

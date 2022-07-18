@@ -5,7 +5,7 @@
  * Plugin URI: https://github.com/merbird/modal-block
  * Description: This is a Gutenberg block modal / popup plugin
  * Author: Mark Bird
- * Version: 1.5
+ * Version: 2.0
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-3.0.txt
  *
