@@ -7,10 +7,10 @@ Tags: gutenberg, modal, popup, window, block
 Author: Mark Bird
 Donate link: https://paypal.me/SupportBodDev
 Requires at least: 5.0
-Tested up to: 6.0
+Tested up to: 6.1.1
 Requires PHP: 5.6
 Stable tag: trunk
-Version: 2
+Version: 2.1
 License: GPLv3
 
 This plugin provides a Gutenberg Modal / Popup Block.
@@ -22,6 +22,9 @@ This project provides a modal / popup block for the  WordPress Gutenberg editor.
 - Multiple methods for triggering modal including button, text link, image link, external class, and page load.
 - User definable modal content using Gutenberg blocks, for example, image, paragraph etc. 
 - Support for multiple modal window sizes.
+- Modal window transitions for fade, left, right, up down.
+- Manual trigger modal initialization by calling bodModal.initModal()
+- Custom events for before open, after open, before close, after close so custom code can be used.
 - Lots of customizable options including Trigger Button Label, Button Color, Trigger Text, Trigger Text Size, Trigger Image, Trigger Class, Modal Delay, Trigger Element Alignment, Overlay Background Color, Title Text Size, Title Font Color, Title Background Color, Title Padding, Border Radius.
 - Supports multiple modals on the same page.
 - ADA compliant.
@@ -51,8 +54,11 @@ From your WordPress dashboard
 2. Modal Guten Block in editor. 
 
 == Changelog ==
+= 2.1 =
+* Transition effects (fade, left, right, up, down) and 'Custom Events' for before modal open, after open, before close, after close
+* Manual trigger modal initialization by calling bodModal.initModal()
 = 2.0 =
-*  Modal background images. Separate options into Trigger, Modal, Title and Content panels. Title close X ability to define size. Trigger based on URL text.
+* Modal background images. Separate options into Trigger, Modal, Title and Content panels. Title close X ability to define size. Trigger based on URL text.
 = 1.5 =
 * modal to modal links, text align title, title close button
 = 1.4.3 =

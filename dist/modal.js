@@ -8,13 +8,28 @@
  * 4/5/2022 - Do not scroll when returning focus on modal close 
  * 5/5/2022 - Allow for modals to call other modals
  * 6/28/2022 - Allow for checking url for text before triggering modal
+ * 11/22/2022 - custom events for open and close
+ * 1/11/2023 - Provide ability to manually trigger initialization of modals on page. Also only initialize modals when document is ready.
  */
-(function($){
+
+    
+var bodModalBlock = function(){
 	"use strict";
+	
+	var $ = jQuery.noConflict();
+
+	const focusableElements =
+	'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+	var bodModalCount = 0; // global count of modals
+	var bodModalActive = false;
+	var bodModals = [];
 
 	var initElements = function(){
-
-
+	
+		bodModalCount = 0; // global count of modals
+		bodModalActive = false;
+		bodModals = [];
 
 		// if we have already inited this type of element
 		$('.wp-block-bod-modal-block').each(function(){
@@ -31,13 +46,13 @@
 		let decodedCookie = decodeURIComponent(document.cookie);
 		let ca = decodedCookie.split(';');
 		for(let i = 0; i <ca.length; i++) {
-		  let c = ca[i];
-		  while (c.charAt(0) == ' ') {
-			 c = c.substring(1);
-		  }
-		  if (c.indexOf(name) == 0) {
-			 return c.substring(name.length, c.length);
-		  }
+		let c = ca[i];
+		while (c.charAt(0) == ' ') {
+			c = c.substring(1);
+		}
+		if (c.indexOf(name) == 0) {
+			return c.substring(name.length, c.length);
+		}
 		}
 		return "";
 	}
@@ -150,6 +165,7 @@
 		}
 
 		this.$modalWrap = this.$container.find('.bod-block-popup-wrap');
+		this.$modal = this.$container.find('.bod-block-popup');
 		this.$modalcloser = this.$container.find('.bod-block-popup-closer')
 		.on('click' , this.hide);
 		this.$titlecloser = this.$container.find('.bod-block-title-closer')
@@ -176,6 +192,8 @@
 
 	BodModal.prototype = {
 		show: function(loadOnce , modalId, noShowDays ){
+
+			$(document).trigger("bod-modal-before-open",this.$modalWrap);
 
 			// if we try and show a modal but one is already open then return without showing the new one
 			if (this.$trigger.hasClass('type_load') && bodModalActive === true) {
@@ -217,6 +235,25 @@
 		},
 		afterShow: function(){
 			clearTimeout(this.timer);
+
+			// Lets check what transition we are going to use
+
+			if (this.transition = this.$modal.attr('data-transition')) {
+				if (this.transition == 'left') {
+					this.$modal.addClass('slide-right');
+				} else if (this.transition == 'right') {
+					this.$modal.addClass('slide-left');
+				} else if (this.transition == 'bottom') {
+					this.$modal.addClass('slide-up');
+				} else if (this.transition == 'top') {
+					this.$modal.addClass('slide-down');
+				} else {
+					this.$modal.addClass('fade');
+				};
+			} else {
+				this.$modal.addClass('fade');
+			};
+
 			this.$overlay.addClass('active');
 			this.$modalWrap.addClass('active');
 			this.$modalWrap.attr('aria-modal','true');
@@ -230,9 +267,14 @@
 			} else {
 				document.activeElement.blur();
 			}
+			$(document).trigger("bod-modal-after-open",this.$modalWrap);
 
 		},
 		hide: function() {
+			if ($(document).trigger("bod-modal-before-close",this.$modalWrap).data('cancel')){
+				return;
+			};
+			
 			this.$overlay.removeClass('active');
 			this.$modalWrap.removeClass('active');
 			// add the overlay and modal wrap back to the container and hide it
@@ -241,6 +283,7 @@
 			this.$modalWrap.attr('aria-modal','false'); 
 			bodModalActive = false;
 			this.modalOpen = false;
+			$(document).trigger("bod-modal-after-close",this.$modalWrap);
 
 			// return focus to element that was active before modal called
 			// but do not scroll to it
@@ -267,7 +310,7 @@
 				if (!isTabPressed) {
 					return;
 				}
-		 
+		
 				// Do we have at least one element in the modal that can receive focus 
 				if (this.firstFocusableElement) {
 					if (e.shiftKey) { // if shift key pressed for shift + tab combination
@@ -292,13 +335,31 @@
 		},
 	}
 
-	// set the elements we can focus on so we can use to enforce focus trap
-	const focusableElements =
-	'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-
-	var bodModalCount = 0; // global count of modals
-	var bodModalActive = false;
-	var bodModals = [];
-	initElements();
+	return {
+		initModal : initElements
+	}
 	
-})(jQuery);
+};
+
+var bodModal = bodModalBlock();
+jQuery(document).ready(function( $ ) {
+
+	bodModal.initModal();
+
+});
+
+// This is an example for the custom events, this one returns cancel=true so modal will not close
+//(function($){
+//$(document).on("bod-modal-before-close", function(e, modalData){
+//	$(this).data('cancel', true);
+
+//	this.$modalData = $(modalData);
+//	this.$modalData.addClass('testbeforeclose');
+//	alert("added before close");
+//});
+//})(jQuery);
+
+// This is an example of how to manually trigger initialization 10 secs after page is ready
+//jQuery(document).ready(function( $ ) {
+//	setTimeout(bodModal.initModal,10000);
+//});

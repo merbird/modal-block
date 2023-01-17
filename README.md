@@ -7,8 +7,26 @@ This project provides a modal / popup block for the  WordPress Gutenberg editor.
 - Multiple methods for triggering modal including button, text link, image link, external class, and page load.
 - User definable modal content using Gutenberg blocks, for example, image, paragraph etc. 
 - Supports multiple modals on the same page.
+- Custom events, before open, after open, before close, after close
+- Allows for manual initialization of modal windows. For use when content changes after document is ready.
 - Allows for modal to modal links. Just add the class bod-modal-to-modal to the trigger link
 - Uses create-guten-block for easy config.
+
+## Custom Events
+
+Provides 4 events to allow for custom code interaction with the modal, bod-modal-before-open, bod-modal-after-open, bod-modal-before-close  and bod-modal-after-close. The bod-modal-before-close event also includes the ability to return a cancel data element which if set to true will cancel the close event for the modal, i.e. keep the modal window open. This allows for custom validation to be performed before the modal closes.
+
+    $(document).on("bod-modal-before-close", function(e, modalData){
+	    $(this).data('cancel', true);
+	    this.$modalData = $(modalData);
+	    this.$modalData.addClass('newClass');
+    });
+
+## Manual Initialization
+
+Allows for manual modal initialization, i.e. reload modal data from page. This is useful if data is changed after the document is ready. This is performed by calling the following JavaScript function:
+
+	bodModal.initModal();
 
 ## Options
 
@@ -67,6 +85,8 @@ This project provides a modal / popup block for the  WordPress Gutenberg editor.
 **URL Content Trigger** Only trigger modal if the URL contains this text
 
 ### Modal Options
+
+**Modal Transition** How to transition the modal on the screen. One of Fade, From Left, From Right, From Bottom, From Top.
 
 **Overlay Background Color** RGBA / Hex modal overlay color.
 

@@ -5,6 +5,7 @@
  */
 
 
+
 .wp-block-bod-modal-block, .bod-block-close-btn {
   
   &.align-center {
@@ -100,6 +101,89 @@
     max-width: 100%;
     max-height: 100%;
     overflow: auto;
+
+    // Transition Effects
+
+    -webkit-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+    opacity: 0;
+    
+    &.slide-right {
+      -webkit-animation: slide-right 1s;
+      -webkit-animation-delay: 0s;
+      animation: slide-right 1s;
+      animation-delay: 0s;
+      opacity: 1;
+    }
+      
+    @-webkit-keyframes slide-right {
+      from { left: -50%}
+      to { left: 50%; }
+    }
+      
+    @keyframes slide-right {
+      from { left: -50%}
+      to { left: 50%; }
+    }
+      
+    &.slide-left {
+      -webkit-animation: slide-left 1s;
+      -webkit-animation-delay: 0s;
+      animation: slide-left 1s;
+      animation-delay: 0s;
+      opacity: 1;
+    }
+        
+    @-webkit-keyframes slide-left {
+      from { left: 150%}
+      to { left: 50%; }
+    }
+        
+    @keyframes slide-left {
+      from { left: 150%}
+      to { left: 50%; }
+    }
+      
+    &.slide-down {
+      -webkit-animation: slide-down 1s;
+      -webkit-animation-delay: 0s;
+      animation: slide-down 1s;
+      animation-delay: 0s;
+      opacity: 1;
+    }
+        
+    @-webkit-keyframes slide-down {
+      from { top: -50%}
+      to { top: 50%; }
+    }
+        
+    @keyframes slide-down {
+      from { top: -50%}
+      to { top: 50%; }
+    }
+      
+    &.slide-up {
+      -webkit-animation: slide-up 1s;
+      -webkit-animation-delay: 0s;
+      animation: slide-up 1s;
+      animation-delay: 0s;
+      opacity: 1;
+    }
+        
+    @-webkit-keyframes slide-up {
+      from { top: 150%}
+      to { top: 50%; }
+    }
+        
+    @keyframes slide-up {
+      from { top: 150%}
+      to { top: 50%; }
+    }
+
+    &.fade {
+      opacity: 1;
+    }
+
   }
 
   .bod-block-popup-closer {
